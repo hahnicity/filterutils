@@ -1,19 +1,33 @@
 package filterutils
 
-
-func Search(n int, f func(int) bool) bool {
+// Taken from the golang source code and modified 
+func Search(n int, f func(int) bool, g func(int) bool) bool {
     // Define f(-1) == false and f(n) == true.
     // Invariant: f(i-1) == false, f(j) == true.
     i, j := 0, n
     for i < j {
         h := i + (j-i)/2 // avoid overflow when computing h
-        // i ≤ h < j
-        if !f(h) {
+        if g(h) {
+            return true
+        } else if !f(h) { // i ≤ h < j
             i = h + 1 // preserves f(i-1) == false
         } else {
             j = h // preserves f(j) == true
         }
     }
     // i == j, f(i-1) == false, and f(j) (= f(i)) == true  =>  answer is i.
-    return i
+    return false
+}
+
+func StringInSortedSlice(a []string, x string) bool {
+    /* 
+    Returns true if a string is in a slice, otherwise return false.
+
+    Must be implemented with a sorted slice. Runtime is O(lg(n))
+    */    
+    return Search(
+        len(a), 
+        func(i int) bool { return a[i] > x}, 
+        func(i int) bool { return a[i] == x},
+    )
 }
