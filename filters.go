@@ -47,10 +47,8 @@ func Filter(a []string, f func(int) bool) []string {
     */
     b := make([]string, 0)
     for i, _ := range a {
-        if f(i) {
+        if f(i) { 
             b = append(b, a[i])
-            a[i] = a[len(a)-1]
-            a = a[0:len(a)-1]
         }
     }
     return b
