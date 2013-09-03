@@ -16,6 +16,10 @@ depending on whether an item is in our data set
 Execute a Binary Search for a specifc string x in a slice a. Return true/false depending
 on whether our string x is contained in slice a.
 
+        func HasSuffix(a []string, suf string) []string
+
+Search over a slice `a` for all elements with the suffix `suf`. Return a slice of strings
+
         func Filter(a []string, f func(int) bool) []string
 
 Search over a slice a for all elements satisfying a specific function f. Return a slice
