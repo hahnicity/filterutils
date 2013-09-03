@@ -32,6 +32,18 @@ func TestFilter(t *testing.T) {
     i := filterutils.Filter(a, func(i int) bool { return a[i] == "foo"}) 
     if !reflect.DeepEqual(i, ex) {
         // XXX Arg... string formatting
-        t.Errorf("Filter test has failed. Expected %d, Actual %d", ex, i)
+        t.Errorf("Filter test has failed. Expected %s, Actual %s", ex, i)
+    }
+}
+
+func TestHasSuffix(t *testing.T) {
+    var (
+        a = []string{"baz", "bar", "chaz", "champ"}
+        suf string = "az"
+        exp = []string{"baz", "chaz"}
+    )
+    ret := filterutils.HasSuffix(a, suf)
+    if !reflect.DeepEqual(ret, exp) {
+        t.Errorf("Filter test has failed. Expected %s, Actual %s")    
     }
 }

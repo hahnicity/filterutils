@@ -1,13 +1,12 @@
 package filterutils
 
+import "strings"
 
 // Taken from the golang source code and modified 
+//Do a binary search over a slice for an element.
+//
+//For large sets a bloom filter is more effective
 func Search(n int, f func(int) bool, g func(int) bool) bool {
-    /* 
-    Do a binary search over a slice for an element.
-
-    For large sets a bloom filter is more effective
-    */
     // Define f(-1) == false and f(n) == true.
     // Invariant: f(i-1) == false, f(j) == true.
     i, j := 0, n
@@ -25,12 +24,11 @@ func Search(n int, f func(int) bool, g func(int) bool) bool {
     return false
 }
 
+ 
+//Returns true if a string is in a slice, otherwise return false.
+//
+//Must be implemented with a sorted slice. Runtime is O(lg(n))
 func StringInSortedSlice(a []string, x string) bool {
-    /* 
-    Returns true if a string is in a slice, otherwise return false.
-
-    Must be implemented with a sorted slice. Runtime is O(lg(n))
-    */
     return Search(
         len(a), 
         func(i int) bool { return a[i] > x}, 
@@ -38,13 +36,18 @@ func StringInSortedSlice(a []string, x string) bool {
     )
 }
 
-
+// Iterate over a slice of strings looking for all strings with a suffix suf
+func HasSuffix(a []string, suf string) []string {
+    return Filter(
+        a, 
+        func(i int) bool { return strings.HasSuffix(a[i], suf) },
+    )
+}
+ 
+//Iterate over a slice and pick only elements which hold under function f
+//    
+//Runtime is O(n)
 func Filter(a []string, f func(int) bool) []string {
-    /* 
-    Iterate over a slice and pick only elements which hold under function f
-    
-    Runtime is O(n)
-    */
     b := make([]string, 0)
     for i, _ := range a {
         if f(i) { 
